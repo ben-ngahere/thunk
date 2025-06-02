@@ -24,9 +24,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
         </header>
         <section className="modal-card-body">
           <div className="field">
-            <label className="label">Email or Username</label>
+            <label className="label">Username</label>
             <div className="control has-icons-left">
-              <input className="input" type="text" placeholder="e.g. alex@example.com" />
+              <input className="input" type="text" placeholder="" />
               <span className="icon is-small is-left">
                 <i className="fas fa-user"></i>
               </span>
@@ -36,7 +36,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
           <div className="field">
             <label className="label">Password</label>
             <div className="control has-icons-left">
-              <input className="input" type="password" placeholder="********" />
+              <input className="input" type="password" placeholder="" />
               <span className="icon is-small is-left">
                 <i className="fas fa-lock"></i>
               </span>
@@ -45,7 +45,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
 
         </section>
         <footer className="modal-card-foot">
-          <button className="button is-primary">Login</button>
+          <button className="button is-danger">Login</button>
           <button className="button" onClick={onClose}>Cancel</button>
         </footer>
       </div>
