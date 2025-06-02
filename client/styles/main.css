@@ -1,1 +1,42 @@
 @import 'bulma/css/bulma.min.css';
+
+/* Base position of the container */
+.hero-body .container {
+  position: relative; 
+  height: 100%; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center;
+  justify-content: center;
+}
+
+/* Initial state of Thunk title */
+.hero-body .container .title.is-1 {
+  position: absolute; /* Center of screen */
+  top: 50%;
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  transition: all 1s ease-out; 
+  white-space: nowrap; 
+  z-index: 10;
+}
+
+/* Initial state of login/register box */
+.hero-body .container .box {
+  opacity: 0; /* Hidden */
+  transform: translateY(100px); 
+  transition: opacity 0.8s ease-out 0.5s, transform 0.8s ease-out 0.5s; 
+  z-index: 5;
+}
+
+/* Animation */
+.hero-body .container.animate-active .title.is-1 {
+  top: 15%;
+  transform: translate(-50%, -100px);
+}
+
+/* Show login/register box */
+.hero-body .container.animate-active .box {
+  opacity: 1;
+  transform: translateY(0);
+}
