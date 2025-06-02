@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin'
 import LoginModal from './LoginModal'
+import RegisterModal from './RegisterModal'
 
 gsap.registerPlugin(ScrambleTextPlugin)
 
@@ -9,6 +10,7 @@ const Home = () => {
   const titleRef = useRef(null)
   const boxRef = useRef(null)
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
 
   // TextScramble + Movement
   useEffect(() => {
@@ -77,8 +79,13 @@ const Home = () => {
     }
   }, [])
 
+  // Login Handler
   const openLoginModal = () => setIsLoginModalOpen(true)
   const closeLoginModal = () => setIsLoginModalOpen(false)
+
+  // Register Handler
+  const openRegisterModal = () => setIsRegisterModalOpen(true)
+  const closeRegisterModal = () => setIsRegisterModalOpen(false)
 
   return (
     <section className="hero is-fullheight is-warning">
@@ -94,12 +101,13 @@ const Home = () => {
               <button className="button is-danger is-fullwidth mb-3" onClick={openLoginModal}>Login</button>
             </div>
             <div className="field">
-              <button className="button is-primary is-fullwidth">Register</button>
+              <button className="button is-primary is-fullwidth" onClick={openRegisterModal}>Register</button>
             </div>
           </div>
         </div>
       </div>
       <LoginModal isOpen={isLoginModalOpen} onClose={closeLoginModal} />
+      <RegisterModal isOpen={isRegisterModalOpen} onClose={closeRegisterModal} />
     </section>
   )
 }
