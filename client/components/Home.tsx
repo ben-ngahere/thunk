@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin'
+import { useNavigate } from 'react-router-dom'
+
 import LoginModal from './LoginModal'
 import RegisterModal from './RegisterModal'
+import LoginTransition from './LoginTransition'
 
 gsap.registerPlugin(ScrambleTextPlugin)
 
@@ -11,6 +14,9 @@ const Home = () => {
   const boxRef = useRef(null)
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
+  const [isLoginTransitioning, setIsLoginTransitioning] = useState(false)
+
+  const navigate = useNavigate()
 
   // TextScramble + Movement
   useEffect(() => {
@@ -49,7 +55,7 @@ const Home = () => {
         // Animate Title: Move to its final position (after scramble)
         .to(titleRef.current, {
           top: '50%',
-          yPercent: -350,
+          yPercent: -200,
           xPercent: -50,
           duration: 1,
           ease: "back.out(1.7)",
@@ -87,18 +93,29 @@ const Home = () => {
   const openRegisterModal = () => setIsRegisterModalOpen(true)
   const closeRegisterModal = () => setIsRegisterModalOpen(false)
 
+  const handleLoginSuccessAndTransition = () => {
+    setIsLoginModalOpen(false); // Close the login modal
+    setIsLoginTransitioning(true); // Start the transition animation
+  };
+
+  const onLoginTransitionComplete = () => {
+    setIsLoginTransitioning(false); // Hide the transition component
+    navigate('/dashboard'); // Navigate to the dashboard page
+  };
+
+
   return (
     <section className="hero is-fullheight is-warning">
       <div className="hero-body">
         <div className="container has-text-centered">
 
           {/* App Heading */}
-          <h1 className="title is-1 has-text-white mb-6" ref={titleRef}>thunk</h1>
+          <h1 className="title is-1 has-text-white mb-6" ref={titleRef} style={{ fontSize: '6rem' }}>thunk</h1>
 
           {/* Login/Register Box */}
           <div className="box py-5 px-6" style={{ backgroundColor: 'rgba(255, 255, 255, 0.25)', maxWidth: '400px', margin: 'auto' }} ref={boxRef}>
             <div className="field">
-              <button className="button is-danger is-fullwidth mb-3" onClick={openLoginModal}>Login</button>
+              <button className="button is-danger is-fullwidth mb-3" onClick={handleLoginSuccessAndTransition}>Login</button>
             </div>
             <div className="field">
               <button className="button is-primary is-fullwidth" onClick={openRegisterModal}>Register</button>
@@ -108,6 +125,7 @@ const Home = () => {
       </div>
       <LoginModal isOpen={isLoginModalOpen} onClose={closeLoginModal} />
       <RegisterModal isOpen={isRegisterModalOpen} onClose={closeRegisterModal} />
+      {isLoginTransitioning && <LoginTransition onComplete={onLoginTransitionComplete} />}
     </section>
   )
 }
