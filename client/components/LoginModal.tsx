@@ -54,9 +54,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
 
     // Control timeline play/reverse based on `isOpen` prop
     if (isOpen) {
-      animationTimeline.current.seek(0); // Ensure the timeline is at the beginning before playing forward
+      animationTimeline.current.seek(0); // Timeline is at the beginning before playing forward
       animationTimeline.current.play(); // Play the entrance animation
-      setIsAnimatingOut(false); // Make sure we are not in an "animating out" state
+      setIsAnimatingOut(false);
     } else {
       if (animationTimeline.current.progress() > 0) { // If the timeline is not at its beginning
         setIsAnimatingOut(true); // Indicate that we are animating out
@@ -73,7 +73,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
     };
   }, [isOpen, onClose]);
 
-  // handleCloseAnimation: Triggered by user interaction (clicks on close button, background)
+  // handleCloseAnimation: Triggered by user interaction (clicks on close or cancel button and background)
   const handleCloseAnimation = () => {
     if (animationTimeline.current && animationTimeline.current.progress() > 0 && !isAnimatingOut) {
       setIsAnimatingOut(true); // Set state to indicate exit animation is playing
@@ -85,7 +85,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
     return null;
   }
 
-  // Determine the CSS class for the modal container (Bulma's `is-active` for display:flex)
+  // Determine CSS class for the modal container (Bulma's `is-active` for display:flex)
   const modalClass = `modal ${isOpen || isAnimatingOut ? 'is-active' : ''}`;
 
   return (
