@@ -2,10 +2,10 @@
 
 /* Base position of the container */
 .hero-body .container {
-  position: relative; 
-  height: 100%; 
-  display: flex; 
-  flex-direction: column; 
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -13,4 +13,13 @@
 /* Initial state of login/register box */
 .hero-body .container .box {
   z-index: 5;
+}
+
+.hero-body .container.align-content-top-after-cards {
+  justify-content: flex-start !important; /* Override vertical centering */
+}
+
+.hero-body {
+  display: flex;
+  flex-direction: column;
 }
