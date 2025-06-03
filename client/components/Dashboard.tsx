@@ -1,64 +1,64 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import gsap from 'gsap';
 import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin';
+import gsap from 'gsap';
+
+import NewThunkCard from './NewThunkCard';
+import ThunkLogCard from './ThunkLogCard';
 
 gsap.registerPlugin(ScrambleTextPlugin);
 
 const Dashboard = () => {
-  // Animation Phase Control: Updated states for concurrent animation
+  // Animation Control
   const [animationPhase, setAnimationPhase] = useState('initial');
+  const [showCards, setShowCards] = useState(false);
+  const [gsapScrambleComplete, setGsapScrambleComplete] = useState(false);
+  const [subtitleTypedComplete, setSubtitleTypedComplete] = useState(false);
 
   // Subtitle Typing Animation
-  const fullSubtitle = "I thunk, I thunk, I thunk";
+  const fullSubtitle = "Loading thunk.......";
   const [typedSubtitle, setTypedSubtitle] = useState('');
   const [showSubtitle, setShowSubtitle] = useState(false);
 
-  // Title Text: Starts as 'Welcome' changes to 'Dashboard'
-  const [titleText, setTitleText] = useState('Welcome');
-
   const mainTitleRef = useRef(null);
 
-  // Combined animation start
+  // Trigger 'scrambleAndType'
   useEffect(() => {
-    // This effect runs once after the initial render to start the main animation sequence
-    setAnimationPhase('scrambleAndType'); // NEW PHASE: Both scramble and typing begin
-  }, []); // Empty dependency array means it runs only once on mount
+    setAnimationPhase('scrambleAndType');
+  }, []);
 
-  // Animation Start
-  // "Welcome" ScrambleIn (GSAP)
-  // MODIFIED: Now triggers on 'scrambleAndType' phase
+  // Initial "Welcome" ScrambleIn (GSAP)
   useEffect(() => {
-    if (animationPhase === 'scrambleAndType' && mainTitleRef.current) { // MODIFIED: Condition
-      // Starts invisible before scrambling
-      gsap.set(mainTitleRef.current, { opacity: 0 });
-
-      // Timeline for the "Welcome" scramble
+    if (animationPhase === 'scrambleAndType' && mainTitleRef.current) {
+      gsap.set(mainTitleRef.current, { opacity: 0, visibility: 'hidden' });
       const scrambleTimeline = gsap.timeline({
-        delay: 0.3,
-        // REMOVED: onComplete no longer sets animationPhase, subtitle useEffect will handle it
+        delay: 0,
+        onComplete: () => {
+          setGsapScrambleComplete(true);
+        }
       });
 
-      // "Welcome" ScrambleText (GSAP)
+      // Welcome appears at 0vh and then scrambles
       scrambleTimeline.to(mainTitleRef.current, {
-        opacity: 1, // Fade in during the scramble
+        opacity: 1, // Make it visible
+        visibility: 'visible', // Make it visible for scrambling
         scrambleText: {
-          text: "Welcome", // The target text for the scramble
+          text: "Welcome",
           chars: "lowerCase",
-          speed: 0.5, // Speed of the scramble effect
+          speed: 0.5,
           newClass: "scramble-active"
         },
         duration: 3
       });
 
-      // Clean up function for GSAP
       return () => {
         scrambleTimeline.kill();
+        gsap.killTweensOf(mainTitleRef.current);
       };
     }
   }, [animationPhase]);
 
-  // "Subtitle" Animation (Framer Motion)
+  // "Subtitle" Typing Animation
   useEffect(() => {
     if (animationPhase === 'scrambleAndType') {
       setShowSubtitle(true);
@@ -70,60 +70,83 @@ const Dashboard = () => {
           i++;
         } else {
           clearInterval(typingInterval);
-          // Animation delay after complete
           setTimeout(() => {
-            setAnimationPhase('transitioning');
-            setShowSubtitle(false);
-            
-            const changeTextTimeout = setTimeout(() => {
-                // Only change if it's still 'Welcome'
-                if (titleText === 'Welcome') {
-                    setTitleText('Dashboard');
-                }
-            }, 320);
-
-            return () => clearTimeout(changeTextTimeout);
+            setSubtitleTypedComplete(true);
           }, 500);
         }
-      }, 100); // Typing speed
-
-      // Clean up function for the typing interval
+      }, 100);
       return () => clearInterval(typingInterval);
     }
     if (animationPhase !== 'scrambleAndType') {
       setTypedSubtitle('');
     }
-  }, [animationPhase, fullSubtitle, titleText]);
+  }, [animationPhase, fullSubtitle]);
 
-  // Framer Motion Variants for "Welcome" to "Dashboard" animation
+  // Synchronize GSAP scramble
+  useEffect(() => {
+    if (gsapScrambleComplete && subtitleTypedComplete) {
+      gsap.to(mainTitleRef.current, {
+        scrambleText: {
+          text: "thunk.board",
+          chars: "alpha",
+          speed: 0.3,
+          revealDelay: 0.3
+        },
+        duration: 1,
+        ease: "power1.inOut",
+        onComplete: () => {
+          setTimeout(() => {
+            setShowSubtitle(false); // Hide subtitle
+            setAnimationPhase('fadeOutTitle');
+          }, 50);
+        }
+      });
+    }
+  }, [gsapScrambleComplete, subtitleTypedComplete]);
+
+  // Framer Motion Variants for title animation phases
   const titleMoveScrambleVariants = {
     initial: {
-      y: '0vh', // Starting position (centered vertically)
-      opacity: 1,
-      scale: 1,
-    },
-    animate: {
-      y: '-40vh',
       scale: 0.9,
-      opacity: [1, 0, 0, 1],
-      transition: {
-        y: { duration: 1.2, ease: "easeOut" },
-        scale: { duration: 1.2, ease: "easeOut" },
-        opacity: {
-          times: [0, 0.4, 0.6, 1],
-          duration: 0.8,
-          ease: "linear"
-        }
-      }
+      opacity: 0,
+      visibility: 'hidden',
     },
-    final: {
-      y: '-40vh', // Final position of title 'Dashboard'
+    scrambleAndType: {
+      scale: 0.9,
       opacity: 1,
-      scale: 0.9
-    }
+      visibility: 'visible',
+      transition: {
+        opacity: { duration: 0.5 },
+      },
+    },
+    fadeOutTitle: {
+      scale: 1.0,
+      opacity: 0,
+      visibility: 'visible',
+      transition: {
+        opacity: { duration: 0.5, ease: "easeOut" },
+        scale: { duration: 0.5, ease: "easeOut" },
+      },
+    },
+    hideAndRepositionTitle: {
+      scale: 0,
+      opacity: 0,
+      visibility: 'hidden',
+      transition: {
+        visibility: { delay: 0, duration: 0 },
+      },
+    },
+    fadeInTitle: {
+      scale: 1.0,
+      opacity: 1,
+      visibility: 'visible',
+      transition: {
+        opacity: { duration: 0.5, ease: "easeOut" },
+      },
+    },
   };
 
-  // Framer Motion Variants for subtitle fade animation
+  // Framer Motion Variants for subtitle fade
   const subtitleFadeVariants = {
     initial: { opacity: 0 },
     animate: { opacity: 1 },
@@ -133,33 +156,41 @@ const Dashboard = () => {
   return (
     <section className="hero is-fullheight is-info">
       <div className="hero-body">
-        <div className="container has-text-centered">
+        <div
+          className="container has-text-centered"
+          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}
+        >
+          {/* New Thunk Card - Top */}
+          <AnimatePresence>
+            {showCards && <NewThunkCard isVisible={showCards} />}
+          </AnimatePresence>
 
           {/* Title: Uses ref for GSAP, and motion.h1 for Framer Motion */}
           <motion.h1
             ref={mainTitleRef}
-            key={titleText === 'Welcome' ? 'welcome-h1' : 'dashboard-h1'}
             className="title is-1 has-text-white"
-            style={{ fontSize: '6rem' }}
+            style={{ fontSize: '4rem', margin: '0.5rem 0' }} //vertical margin for spacing
             variants={titleMoveScrambleVariants}
-            // Control Framer Motion animations based on the current phase
-            initial={animationPhase === 'initial' ? 'initial' : (animationPhase === 'final' ? "animate" : false)}
-            animate={animationPhase === 'transitioning' ? "animate" : (animationPhase === 'final' ? "animate" : false)}
-           
-            // End of Animations
-            onAnimationComplete={() => {
-              if (animationPhase === 'transitioning') {
-                setAnimationPhase('final');
+            initial="initial"
+            animate={animationPhase}
+            onAnimationComplete={(definition) => {
+              if (definition === 'fadeOutTitle') {
+                setAnimationPhase('hideAndRepositionTitle');
+              } else if (definition === 'hideAndRepositionTitle') {
+                setAnimationPhase('fadeInTitle');
+              } else if (definition === 'fadeInTitle') {
+                setTimeout(() => {
+                  setShowCards(true);
+                }, 800); // Small delay before cards appear
               }
             }}
           >
-            {titleText}
+            Welcome
           </motion.h1>
 
-          {/* Subtitle: Uses AnimatePresence for mounting/unmounting */}
+          {/* Subtitle: Uses AnimatePresence */}
           <AnimatePresence>
-            {/* Show subtitle during typing and transition animations */}
-            {showSubtitle && (animationPhase === 'scrambleAndType' || animationPhase === 'transitioning') && (
+            {showSubtitle && (animationPhase === 'scrambleAndType') && (
               <motion.p
                 key="subtitle"
                 className="subtitle has-text-white-ter"
@@ -171,6 +202,11 @@ const Dashboard = () => {
                 {typedSubtitle}
               </motion.p>
             )}
+          </AnimatePresence>
+
+          {/* Thunk Log Card - Bottom */}
+          <AnimatePresence>
+            {showCards && <ThunkLogCard isVisible={showCards} />}
           </AnimatePresence>
         </div>
       </div>
