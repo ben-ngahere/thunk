@@ -19,7 +19,7 @@ const NewThunkCard = ({ isVisible }: NewThunkCardProps) => {
       exit="hidden" // For AnimatePresence when parent changes visibility
       style={{ opacity: 0.9, maxWidth: '300px', margin: '1rem auto' }}
     >
-      <h3 className="title is-4 has-text-grey-dark">New Thunk</h3>
+      <h3 className="title is-4 has-text-grey-dark">New Entry</h3>
       <p className="subtitle is-6 has-text-grey-dark"></p>
       <button className="button is-primary is-fullwidth mt-4">Start</button>
     </motion.div>

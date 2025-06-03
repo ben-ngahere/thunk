@@ -16,7 +16,7 @@ const Dashboard = () => {
   const [subtitleTypedComplete, setSubtitleTypedComplete] = useState(false);
 
   // Subtitle Typing Animation
-  const fullSubtitle = "Loading thunk.......";
+  const fullSubtitle = "";
   const [typedSubtitle, setTypedSubtitle] = useState('');
   const [showSubtitle, setShowSubtitle] = useState(false);
 
@@ -181,7 +181,7 @@ const Dashboard = () => {
               } else if (definition === 'fadeInTitle') {
                 setTimeout(() => {
                   setShowCards(true);
-                }, 800); // Small delay before cards appear
+                }, 500); // Small delay before cards appear
               }
             }}
           >
