@@ -68,7 +68,7 @@ const LoginTransition: React.FC<LoginTransitionProps> = ({ onComplete }) => {
         className="title is-1 has-text-white"
         style={{ opacity: 0 }}
       >
-        Loading Thunk User...
+        Loading User...
       </h2>
     </div>
   );

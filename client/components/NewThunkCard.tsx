@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const cardVariants = {
   hidden: { y: 20, opacity: 0 }, // Start slightly below and invisible
@@ -10,6 +11,12 @@ interface NewThunkCardProps {
 }
 
 const NewThunkCard = ({ isVisible }: NewThunkCardProps) => {
+  const navigate = useNavigate()
+
+  const handleStartButton = () => {
+    navigate('/newentry')
+  }
+
   return (
     <motion.div
       className="box has-background-white-ter py-5 px-6"
@@ -21,7 +28,7 @@ const NewThunkCard = ({ isVisible }: NewThunkCardProps) => {
     >
       <h3 className="title is-4 has-text-grey-dark">New Entry</h3>
       <p className="subtitle is-6 has-text-grey-dark"></p>
-      <button className="button is-primary is-fullwidth mt-4">Start</button>
+      <button className="button is-primary is-fullwidth mt-4" onClick={handleStartButton}>Start</button>
     </motion.div>
   );
 };
