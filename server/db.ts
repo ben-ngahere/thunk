@@ -3,7 +3,7 @@ import config from '../knexfile';
 
 const db = knex(config.development);
 
-// TYPE: Thunk Entry
+// TYPE: Thunk Entry (components/Log ln7)
 export interface Thunk {
   id: number;
   user_id: string;
@@ -12,7 +12,7 @@ export interface Thunk {
   created_at: string; // can be converted to Date
 }
 
-// GET: Saved Thunks for a User (server/server.ts ln 18)
+// GET: Saved Thunks for a User (server/server.ts ln 18) (components/Log ln25)
 export async function getThunksByUserId(userId: string): Promise<Thunk[]> {
   return db('thunks')
     .where('user_id', userId)

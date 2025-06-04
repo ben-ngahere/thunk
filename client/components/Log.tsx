@@ -1,8 +1,46 @@
-//import React from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import request from 'superagent';
+
+// TYPE: Thunk Entry (server/db.ts ln7)
+export interface Thunk {
+  id: number;
+  user_id: string;
+  title: string;
+  text: string;
+  created_at: string;
+}
 
 const Log = () => {
   const navigate = useNavigate();
+
+  const [thunks, setThunks] = useState<Thunk[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const MOCK_USER_ID = 'mock_user_ben'; // Still needed, gets used in the back-end
+
+  // GET: Saved Thunks for a User
+  const getThunks = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await request.get('/api/thunks');
+      setThunks(response.body);
+      console.log('Fetched thunks:', response.body);
+    } catch (error) {
+      console.error('Error getting thunks:', error);
+      setError('Error getting thunks');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // GET: Thunks when Log.tsx loads
+  useEffect(() => {
+    getThunks();
+  }, []);
 
   // New Entry Button
   const handleNewEntryClick = () => {
@@ -73,14 +111,40 @@ const Log = () => {
               maxHeight: '600px',
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              margin: 'auto'
+              margin: 'auto',
+              overflowY: 'auto', // Lot of entries = enable scroll
+              position: 'relative'
             }}
           >
-            <h1 className="title is-3 has-text-grey-dark">Your Thunk Log</h1>
-            <p className="subtitle is-5 has-text-grey-dark">Entries will appear here</p>
-            {/* Log entries to render here */}
+            <h1 className="title is-3 has-text-grey-dark has-text-centered mb-4">Your Thunk Log</h1>
+
+            {loading && <p className="has-text-info has-text-centered">Loading thunks...</p>}
+            {error && <p className="has-text-danger has-text-centered">{error}</p>}
+            {!loading && !error && thunks.length === 0 && (
+              <p className="has-text-grey has-text-centered">No Thunks Saved. Add one!</p>
+            )}
+
+            {/* Display Thunks */}
+            {!loading && !error && thunks.length > 0 && (
+              <div className="thunks-list" style={{ flexGrow: 1, overflowY: 'auto', marginBottom: '20px' }}>
+                {thunks.map((thunk) => (
+                  <div key={thunk.id} className="box mb-3 p-4 has-background-white-bis">
+                    <p className="title is-5 mb-1">{thunk.title}</p>
+                    <p className="subtitle is-6 has-text-grey mb-2">{new Date(thunk.created_at).toLocaleString()}</p>
+                    <p className="content">{thunk.text}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Refresh Button */}
+            <div className="field mt-4" style={{ textAlign: 'left', alignSelf: 'flex-start' }}>
+              <div className="control">
+                <button className="button is-small is-warning" onClick={getThunks} disabled={loading}>
+                  {loading ? 'Refreshing...' : 'Refresh'}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
