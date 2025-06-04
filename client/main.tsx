@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './components/Home'
 import Dashboard from './components/Dashboard'
 import NewEntry from './components/NewEntry'
+import Log from './components/Log'
 
 const queryClient = new QueryClient()
 
@@ -18,7 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/newentry" element={<NewEntry/>} />
+          <Route path="/newentry" element={<NewEntry />} />
+          <Route path="/log" element={<Log />} />
         </Routes>
       </BrowserRouter>
       <ReactQueryDevtools />

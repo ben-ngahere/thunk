@@ -12,10 +12,11 @@ const NewEntryPage = () => {
   // View Log Button
   const handleLogClick = () => {
     console.log('Log button clicked!');
+    navigate('/log')
   };
 
   // Sign Out Button
-  const handleLogOutClick = () => {
+  const handleSignOutClick = () => {
     console.log('Log Out button clicked!');
     navigate('/');
   };
@@ -44,7 +45,7 @@ const NewEntryPage = () => {
             {/* Sign Out Button */}
             <div className="navbar-item">
               <div className="buttons">
-                <button className="button is-small is-danger" onClick={handleLogOutClick}>
+                <button className="button is-small is-danger" onClick={handleSignOutClick}>
                   Sign Out
                 </button>
               </div>
@@ -86,7 +87,7 @@ const NewEntryPage = () => {
             <div className="field">
               <label className="label">Title</label>
               <div className="control">
-                <input className="input is-medium" type="text" placeholder="Enter your title" />
+                <input className="input is-medium" type="text" placeholder="Title" />
               </div>
             </div>
 
@@ -96,7 +97,7 @@ const NewEntryPage = () => {
               <div className="control" style={{ flexGrow: 1 }}>
                 <textarea
                   className="textarea"
-                  placeholder="Write here..."
+                  placeholder="Text"
                   style={{ minHeight: '150px', height: '100%', resize: 'vertical' }}
                 ></textarea>
               </div>
