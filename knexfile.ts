@@ -1,0 +1,21 @@
+import * as Path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = Path.dirname(__filename)
+
+export default {
+  development: {
+    client: 'sqlite3',
+    useNullAsDefault: true,
+    connection: {
+      filename: Path.join(__dirname, 'server', 'db', 'database.sqlite'),
+    },
+    migrations: {
+      directory: Path.join(__dirname, 'server', 'db', 'migrations'),
+    },
+    seeds: {
+      directory: Path.join(__dirname, 'server', 'db', 'seeds'),
+    },
+  },
+};

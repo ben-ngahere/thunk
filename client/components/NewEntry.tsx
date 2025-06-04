@@ -1,12 +1,41 @@
 //import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react'
+import request from 'superagent'
 
-const NewEntryPage = () => {
+const NewEntry = () => {
   const navigate = useNavigate();
 
+  const [title, setTitle] = useState('');
+  const [text, setText] = useState('');
+  const [message, setMessage] = useState('');
+
+  const MOCK_USER_ID = 'mock_user_ben';
+
   // Save Button
-  const handleSaveClick = () => {
-    console.log('Save button clicked!');
+  const handleSaveClick = async () => {
+    setMessage('')
+
+    if (!title.trim() || !text.trim()){
+      setMessage('title and text cannot be empty')
+    }
+
+    try{
+      const response = await request
+      .post('/api/thunks')
+      .send({ user_id: MOCK_USER_ID, title, text })
+
+      console.log('Thunk Saved!', response.body.thunk)
+      setMessage('Thunk Saved!')
+      setTitle('')
+      setText('')
+      navigate('/log')
+    }catch (error){
+      console.error('Error Saving!', error)
+      setMessage('Error Saving!')
+    }
+
+    // console.log('Save button clicked!');
   };
 
   // View Log Button
@@ -87,7 +116,7 @@ const NewEntryPage = () => {
             <div className="field">
               <label className="label">Title</label>
               <div className="control">
-                <input className="input is-medium" type="text" placeholder="Title" />
+                <input className="input is-medium" type="text" placeholder="title" value={title} onChange={(e) => setTitle(e.target.value)} />
               </div>
             </div>
 
@@ -97,11 +126,20 @@ const NewEntryPage = () => {
               <div className="control" style={{ flexGrow: 1 }}>
                 <textarea
                   className="textarea"
-                  placeholder="Text"
+                  placeholder="text"
                   style={{ minHeight: '150px', height: '100%', resize: 'vertical' }}
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
                 ></textarea>
               </div>
             </div>
+
+            {/* Success/Error Message */}
+            {message && (
+              <p className={`help ${message.includes('successfully') ? 'has-text-success' : 'has-text-danger'} mb-3`}>
+                {message}
+              </p>
+            )}
 
             {/* Save Button */}
             <div className="field mt-4" style={{ textAlign: 'left' }}>
@@ -118,4 +156,4 @@ const NewEntryPage = () => {
   );
 };
 
-export default NewEntryPage;
+export default NewEntry;
