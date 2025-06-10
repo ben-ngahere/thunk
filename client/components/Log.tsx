@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import request from 'superagent';
+import { PlusSquare, RefreshCw, LogOut } from 'lucide-react'
 
 // TYPE: Thunk Entry (server/db.ts ln7)
 export interface Thunk {
@@ -69,7 +70,11 @@ const Log = () => {
             <div className="navbar-item">
               <div className="buttons">
                 <button className="button is-small is-link" onClick={handleNewEntryClick}>
-                  New Entry
+                 {/* Lucide PlusSquare Icon */}
+                  <span className="icon is-small">
+                    <PlusSquare size={16} />
+                  </span>
+                  <span>New Entry</span>
                 </button>
               </div>
             </div>
@@ -78,7 +83,11 @@ const Log = () => {
             <div className="navbar-item">
               <div className="buttons">
                 <button className="button is-small is-danger" onClick={handleSignOutClick}>
-                  Sign Out
+                  {/* Lucide LogOut Icon */}
+                  <span className="icon is-small">
+                    <LogOut size={16} />
+                  </span>
+                  <span>Sign Out</span>
                 </button>
               </div>
             </div>
@@ -91,6 +100,7 @@ const Log = () => {
         <div
           className="hero-body"
           style={{
+            background: 'linear-gradient(to bottom right, #2c3e50, #4a6a8a)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -141,8 +151,12 @@ const Log = () => {
             <div className="field mt-4" style={{ textAlign: 'left', alignSelf: 'flex-start' }}>
               <div className="control">
                 <button className="button is-small is-warning" onClick={getThunks} disabled={loading}>
-                  {loading ? 'Refreshing...' : 'Refresh'}
-                </button>
+                  {/* Lucide RefreshCw Icon */}
+                <span className="icon is-small">
+                  <RefreshCw size={16} />
+                </span>
+                <span>{loading ? 'Refreshing...' : 'Refresh'}</span>
+              </button>
               </div>
             </div>
           </div>
