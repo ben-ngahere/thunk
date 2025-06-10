@@ -2,6 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react'
 import request from 'superagent'
+import { List, LogOut, Save } from 'lucide-react'
 
 const NewEntry = () => {
   const navigate = useNavigate();
@@ -66,7 +67,11 @@ const NewEntry = () => {
             <div className="navbar-item">
               <div className="buttons">
                 <button className="button is-small is-link" onClick={handleLogClick}>
-                  View Log
+                   {/* Lucide List Icon */}
+                  <span className="icon is-small">
+                    <List size={16} />
+                  </span>
+                  <span>View Log</span>
                 </button>
               </div>
             </div>
@@ -75,7 +80,11 @@ const NewEntry = () => {
             <div className="navbar-item">
               <div className="buttons">
                 <button className="button is-small is-danger" onClick={handleSignOutClick}>
-                  Sign Out
+                  {/* Lucide LogOut Icon */}
+                  <span className="icon is-small">
+                    <LogOut size={16} />
+                  </span>
+                  <span>Sign Out</span>
                 </button>
               </div>
             </div>
@@ -145,7 +154,11 @@ const NewEntry = () => {
             <div className="field mt-4" style={{ textAlign: 'left' }}>
               <div className="control">
                 <button className="button is-small is-primary" onClick={handleSaveClick}>
-                  <strong>Save</strong>
+                  {/* Lucide Save Icon */}
+                <span className="icon is-small">
+                  <Save size={16} />
+                </span>
+                <span><strong>Save</strong></span>
                 </button>
               </div>
             </div>
