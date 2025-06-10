@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import LoginModal from './LoginModal'
 import RegisterModal from './RegisterModal'
 import LoginTransition from './LoginTransition'
+import { LogIn, UserPlus } from 'lucide-react'
 
 gsap.registerPlugin(ScrambleTextPlugin)
 
@@ -113,12 +114,24 @@ const Home = () => {
           <h1 className="title is-1 has-text-white mb-6" ref={titleRef} style={{ fontSize: '6rem' }}>thunk</h1>
 
           {/* Login/Register Box */}
-          <div className="box py-5 px-6" style={{ backgroundColor: 'rgba(255, 255, 255, 0.25)', maxWidth: '400px', margin: 'auto' }} ref={boxRef}>
+          <div className="box py-5 px-6" style={{ backgroundColor: 'rgba(255, 255, 255, 0.25)', borderRadius: '8px', boxShadow: '0, 8px, 16px rgba(0, 0, 0, 0.2)', maxWidth: '400px', margin: 'auto' }} ref={boxRef}>
             <div className="field">
-              <button className="button is-danger is-fullwidth mb-3" onClick={handleLoginSuccessAndTransition}>Login</button>
+              <button className="button is-danger is-fullwidth mb-3" onClick={handleLoginSuccessAndTransition}>
+                {/* Lucide LogIn Icon */}
+                <span className="icon is-small">
+                  <LogIn size={16} />
+                </span>
+                <span>Login</span>
+              </button>
             </div>
             <div className="field">
-              <button className="button is-primary is-fullwidth" onClick={openRegisterModal}>Register</button>
+              <button className="button is-primary is-fullwidth" onClick={openRegisterModal}>
+                {/* Lucide UserPlus Icon */}
+                <span className="icon is-small">
+                  <UserPlus size={16} />
+                </span>
+                <span>Register</span>
+              </button>
             </div>
           </div>
         </div>
