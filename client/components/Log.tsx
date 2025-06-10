@@ -114,7 +114,7 @@ const Log = () => {
             style={{
               backgroundColor: 'rgba(255, 255, 255, 0.9)',
               borderRadius: '8px',
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+              boxShadow: '0 18px 16px rgba(0, 0, 0, 0.2)',
               width: '90%',
               maxWidth: '800px',
               height: '80%',
@@ -131,7 +131,7 @@ const Log = () => {
             {loading && <p className="has-text-info has-text-centered">Loading thunks...</p>}
             {error && <p className="has-text-danger has-text-centered">{error}</p>}
             {!loading && !error && thunks.length === 0 && (
-              <p className="has-text-grey has-text-centered">No Thunks Saved. Add one!</p>
+              <p className="has-text-grey has-text-centered">No Thunks Saved</p>
             )}
 
             {/* Display Thunks */}
