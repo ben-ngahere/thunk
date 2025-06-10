@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react'
 import request from 'superagent'
 import { List, LogOut, Save } from 'lucide-react'
+import { useAuth0 } from '@auth0/auth0-react';
 
 const NewEntry = () => {
   const navigate = useNavigate();
+  const { logout } = useAuth0();
 
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
@@ -41,14 +43,15 @@ const NewEntry = () => {
 
   // View Log Button
   const handleLogClick = () => {
-    console.log('Log button clicked!');
+    //console.log('Log button clicked!');
     navigate('/log')
   };
 
   // Sign Out Button
   const handleSignOutClick = () => {
-    console.log('Log Out button clicked!');
-    navigate('/');
+    logout({ logoutParams: { returnTo: window.location.origin } })
+    //console.log('Log Out button clicked!');
+    //navigate('/');
   };
 
   return (
