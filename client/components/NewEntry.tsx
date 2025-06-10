@@ -93,74 +93,73 @@ const NewEntry = () => {
       </nav>
 
       {/* Main Input */}
-      <section className="hero is-fullheight">
+      <section
+        className="hero is-fullheight"
+        style={{
+          background: 'linear-gradient(to bottom right, #2c3e50, #4a6a8a)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingTop: '3.25rem',
+          paddingBottom: '1rem'
+        }}
+      >
         <div
-          className="hero-body"
+          className="box py-5 px-6"
           style={{
+            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+            borderRadius: '8px',
+            boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
+            width: '90%',
+            maxWidth: '800px',
+            height: '80%',
+            maxHeight: '600px',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingTop: '3.25rem', 
-            paddingBottom: '1rem'
+            justifyContent: 'space-between',
+            margin: 'auto'
           }}
         >
-          <div
-            className="box py-5 px-6"
-            style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.9)',
-              borderRadius: '8px',
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-              width: '90%', 
-              maxWidth: '800px', 
-              height: '80%', 
-              maxHeight: '600px', 
-              display: 'flex', 
-              flexDirection: 'column', 
-              justifyContent: 'space-between',
-              margin: 'auto'
-            }}
-          >
-            {/* Title Input */}
-            <div className="field">
-              <label className="label">Title</label>
-              <div className="control">
-                <input className="input is-medium" type="text" placeholder="title" value={title} onChange={(e) => setTitle(e.target.value)} />
-              </div>
+          {/* Title Input */}
+          <div className="field">
+            <label className="label">Title</label>
+            <div className="control">
+              <input className="input is-medium" type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
             </div>
+          </div>
 
-            {/* Text Input */}
-            <div className="field" style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-              <label className="label">Text</label>
-              <div className="control" style={{ flexGrow: 1 }}>
-                <textarea
-                  className="textarea"
-                  placeholder="text"
-                  style={{ minHeight: '150px', height: '100%', resize: 'vertical' }}
-                  value={text}
-                  onChange={(e) => setText(e.target.value)}
-                ></textarea>
-              </div>
+          {/* Text Input */}
+          <div className="field" style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+            <label className="label">Text</label>
+            <div className="control" style={{ flexGrow: 1 }}>
+              <textarea
+                className="textarea"
+                placeholder="Write here..."
+                style={{ minHeight: '150px', height: '100%', resize: 'vertical' }}
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+              ></textarea>
             </div>
+          </div>
 
-            {/* Success/Error Message */}
-            {message && (
-              <p className={`help ${message.includes('successfully') ? 'has-text-success' : 'has-text-danger'} mb-3`}>
-                {message}
-              </p>
-            )}
+          {/* Success/Error Message */}
+          {message && (
+            <p className={`help ${message.includes('successfully') ? 'has-text-success' : 'has-text-danger'} mb-3`}>
+              {message}
+            </p>
+          )}
 
-            {/* Save Button */}
-            <div className="field mt-4" style={{ textAlign: 'left' }}>
-              <div className="control">
-                <button className="button is-small is-primary" onClick={handleSaveClick}>
-                  {/* Lucide Save Icon */}
+          {/* Save Button */}
+          <div className="field mt-4" style={{ textAlign: 'left' }}>
+            <div className="control">
+              <button className="button is-small is-primary" onClick={handleSaveClick}>
+                {/* Lucide Save Icon */}
                 <span className="icon is-small">
                   <Save size={16} />
                 </span>
                 <span><strong>Save</strong></span>
-                </button>
-              </div>
+              </button>
             </div>
           </div>
         </div>
