@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import request from 'superagent';
 import { PlusSquare, RefreshCw, LogOut } from 'lucide-react'
+import { useAuth0 } from '@auth0/auth0-react';
 
 // TYPE: Thunk Entry (server/db.ts ln7)
 export interface Thunk {
@@ -14,6 +15,7 @@ export interface Thunk {
 
 const Log = () => {
   const navigate = useNavigate();
+  const { logout } = useAuth0();
 
   const [thunks, setThunks] = useState<Thunk[]>([]);
   const [loading, setLoading] = useState(true);
@@ -50,8 +52,9 @@ const Log = () => {
 
   // Sign Out Button
   const handleSignOutClick = () => {
-    console.log('Sign Out button clicked from Log Page!');
-    navigate('/');
+    logout ({ logoutParams: { returnTo: window.location.origin }})
+    // console.log('Sign Out button clicked from Log Page!');
+    // navigate('/');
   };
 
   return (

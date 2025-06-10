@@ -49,7 +49,7 @@ const NewEntry = () => {
 
   // Sign Out Button
   const handleSignOutClick = () => {
-    logout({ logoutParams: { returnTo: window.location.origin } })
+    logout({ logoutParams: { returnTo: window.location.origin }})
     //console.log('Log Out button clicked!');
     //navigate('/');
   };
