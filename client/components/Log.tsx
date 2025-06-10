@@ -19,7 +19,7 @@ const Log = () => {
   const [error, setError] = useState<string | null>(null);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const MOCK_USER_ID = 'mock_user_ben'; // Still needed, gets used in the back-end
+  const MOCK_USER_ID = 'mock_user_ben'; // Still needed, gets used in the back-end. Auth0 on it's way soon
 
   // GET: Saved Thunks for a User
   const getThunks = async () => {
