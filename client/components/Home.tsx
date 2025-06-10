@@ -1,23 +1,32 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin'
 import { useNavigate } from 'react-router-dom'
 
-import LoginModal from './LoginModal'
-import RegisterModal from './RegisterModal'
-import LoginTransition from './LoginTransition'
+// import LoginModal from './LoginModal'
+// import RegisterModal from './RegisterModal'
+//import LoginTransition from './LoginTransition'
 import { LogIn, UserPlus } from 'lucide-react'
+import { useAuth0 } from '@auth0/auth0-react'
 
 gsap.registerPlugin(ScrambleTextPlugin)
 
 const Home = () => {
   const titleRef = useRef(null)
   const boxRef = useRef(null)
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
-  const [isLoginTransitioning, setIsLoginTransitioning] = useState(false)
+  // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  // const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
+  // const [isLoginTransitioning, setIsLoginTransitioning] = useState(false)
+  const { loginWithPopup, isAuthenticated, isLoading} = useAuth0()
 
   const navigate = useNavigate()
+
+  // Redirect to /dashboard if user is authenticated
+  useEffect(() => {
+    if (isAuthenticated && !isLoading) {
+      navigate('/dashboard')
+    }
+  }, [isAuthenticated, isLoading, navigate])
 
   // TextScramble + Movement
   useEffect(() => {
@@ -87,22 +96,22 @@ const Home = () => {
   }, [])
 
   // Login Handler
-  const openLoginModal = () => setIsLoginModalOpen(true)
-  const closeLoginModal = () => setIsLoginModalOpen(false)
+  //const openLoginModal = () => setIsLoginModalOpen(true)
+  //const closeLoginModal = () => setIsLoginModalOpen(false)
 
   // Register Handler
-  const openRegisterModal = () => setIsRegisterModalOpen(true)
-  const closeRegisterModal = () => setIsRegisterModalOpen(false)
+  //const openRegisterModal = () => setIsRegisterModalOpen(true)
+  //const closeRegisterModal = () => setIsRegisterModalOpen(false)
 
-  const handleLoginSuccessAndTransition = () => {
-    setIsLoginModalOpen(false); // Close the login modal
-    setIsLoginTransitioning(true); // Start the transition animation
-  };
+  // const handleLoginSuccessAndTransition = () => {
+  //   setIsLoginModalOpen(false); // Close the login modal
+  //   setIsLoginTransitioning(true); // Start the transition animation
+  // };
 
-  const onLoginTransitionComplete = () => {
-    setIsLoginTransitioning(false); // Hide the transition component
-    navigate('/dashboard'); // Navigate to the dashboard page
-  };
+  // const onLoginTransitionComplete = () => {
+  //   setIsLoginTransitioning(false); // Hide the transition component
+  //   navigate('/dashboard'); // Navigate to the dashboard page
+  // };
 
 
   return (
@@ -116,7 +125,7 @@ const Home = () => {
           {/* Login/Register Box */}
           <div className="box py-5 px-6" style={{ backgroundColor: 'rgba(255, 255, 255, 0.25)', borderRadius: '8px', boxShadow: '0, 8px, 16px rgba(0, 0, 0, 0.2)', maxWidth: '400px', margin: 'auto' }} ref={boxRef}>
             <div className="field">
-              <button className="button is-danger is-fullwidth mb-3" onClick={handleLoginSuccessAndTransition}>
+              <button className="button is-danger is-fullwidth mb-3" onClick={()=>loginWithPopup()} disabled={isLoading}>
                 {/* Lucide LogIn Icon */}
                 <span className="icon is-small">
                   <LogIn size={16} />
@@ -125,7 +134,7 @@ const Home = () => {
               </button>
             </div>
             <div className="field">
-              <button className="button is-primary is-fullwidth" onClick={openRegisterModal}>
+              <button className="button is-primary is-fullwidth" onClick={()=>loginWithPopup({ authorizationParams: { screen_hint: 'signup'}})} disabled={isLoading}>
                 {/* Lucide UserPlus Icon */}
                 <span className="icon is-small">
                   <UserPlus size={16} />
@@ -136,9 +145,9 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <LoginModal isOpen={isLoginModalOpen} onClose={closeLoginModal} />
+      {/* <LoginModal isOpen={isLoginModalOpen} onClose={closeLoginModal} />
       <RegisterModal isOpen={isRegisterModalOpen} onClose={closeRegisterModal} />
-      {isLoginTransitioning && <LoginTransition onComplete={onLoginTransitionComplete} />}
+      {isLoginTransitioning && <LoginTransition onComplete={onLoginTransitionComplete} />} */}
     </section>
   )
 }
