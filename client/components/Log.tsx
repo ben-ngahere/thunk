@@ -157,9 +157,9 @@ const Log = () => {
               <div className="thunks-list" style={{ flexGrow: 1, overflowY: 'auto', marginBottom: '20px' }}>
                 {thunks.map((thunk) => (
                   <div key={thunk.id} className="box mb-3 p-4 has-background-white-bis" onClick={()=>handleThunkClick(thunk.id)} style={{cursor: 'pointer'}}>
-                    <p className="title is-5 mb-1">{thunk.title}</p>
-                    <p className="subtitle is-6 has-text-grey mb-2">{new Date(thunk.created_at).toLocaleString()}</p>
-                    <p className="content">{thunk.text}</p>
+                    <p className="title is-5 mb-1 has-text-dark">{thunk.title}</p>
+                    <p className="subtitle is-6 mb-2 has-text-grey-dark">{new Date(thunk.created_at).toLocaleString()}</p>
+                    <p className="content has-text-dark">{thunk.text}</p>
                   </div>
                 ))}
               </div>
