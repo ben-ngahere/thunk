@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/newentry" element={<NewEntry />} />
+          <Route path="/newentry/:id?" element={<NewEntry />} /> {/* :id? for editing using NewEntry */}
           <Route path="/log" element={<Log />} />
         </Routes>
       </BrowserRouter>
