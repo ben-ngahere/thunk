@@ -33,3 +33,27 @@ export async function addThunk(thunk: Omit<Thunk, 'id' | 'created_at'>): Promise
 
   return newThunk;
 }
+
+// GET: A Thunk by ID (server/server.ts ln58)
+export async function getThunkById(id: number, userId: string): Promise<Thunk> {
+  return db('thunks')
+    .where('id', id)
+    .andWhere('user_id', userId) // Makes sure the ID belongs to a user
+    .first();
+}
+
+// PATCH: A Thunk (Update) (server/server.ts ln108)
+export async function updateThunk(
+  id: number,
+  userId: string,
+  newTitle: string,
+  newText: string
+): Promise<number> {
+  return db('thunks')
+    .where('id', id)
+    .andWhere('user_id', userId) // Only updates if it belongs to a user
+    .update({
+      title: newTitle,
+      text: newText,
+    });
+}
