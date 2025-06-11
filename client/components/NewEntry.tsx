@@ -7,13 +7,13 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 const NewEntry = () => {
   const navigate = useNavigate();
-  const { logout } = useAuth0();
-
+  const { logout, getAccessTokenSilently, user } = useAuth0();
+  
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
   const [message, setMessage] = useState('');
 
-  const MOCK_USER_ID = 'mock_user_ben';
+  // const MOCK_USER_ID = 'mock_user_ben';
 
   // Save Button
   const handleSaveClick = async () => {
@@ -21,12 +21,21 @@ const NewEntry = () => {
 
     if (!title.trim() || !text.trim()){
       setMessage('title and text cannot be empty')
+      return
     }
 
     try{
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+        audience: 'https://thunk/api'
+        }
+      })
+      console.log('Access Token:', accessToken)
+
       const response = await request
       .post('/api/thunks')
-      .send({ user_id: MOCK_USER_ID, title, text })
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({ user_id: user?.sub, title, text })
 
       console.log('Thunk Saved!', response.body.thunk)
       setMessage('Thunk Saved!')
