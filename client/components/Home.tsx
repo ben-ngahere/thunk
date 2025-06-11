@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 // import LoginModal from './LoginModal'
 // import RegisterModal from './RegisterModal'
-//import LoginTransition from './LoginTransition'
+// import LoginTransition from './LoginTransition'
 import { LogIn, UserPlus } from 'lucide-react'
 import { useAuth0 } from '@auth0/auth0-react'
 
@@ -17,7 +17,7 @@ const Home = () => {
   // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   // const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
   // const [isLoginTransitioning, setIsLoginTransitioning] = useState(false)
-  const { loginWithPopup, isAuthenticated, isLoading} = useAuth0()
+  const { loginWithRedirect, isAuthenticated, isLoading} = useAuth0()
 
   const navigate = useNavigate()
 
@@ -95,6 +95,28 @@ const Home = () => {
     }
   }, [])
 
+  // NEW: Handle Login Click - initiates Auth0 redirect
+  const handleLoginClick = async () => {
+    await loginWithRedirect({
+      authorizationParams: {
+        screen_hint: 'login', // Suggests login screen
+        audience: 'https://thunk/api', // Crucial for getting the API token
+        scope: 'openid profile email offline_access', // Crucial for refresh tokens
+      },
+    });
+  };
+
+  // NEW: Handle Register Click - initiates Auth0 redirect
+  const handleRegisterClick = async () => {
+    await loginWithRedirect({
+      authorizationParams: {
+        screen_hint: 'signup', // Suggests signup screen
+        audience: 'https://thunk/api', // Crucial for getting the API token
+        scope: 'openid profile email offline_access', // Crucial for refresh tokens
+      },
+    });
+  };
+
   // Login Handler
   //const openLoginModal = () => setIsLoginModalOpen(true)
   //const closeLoginModal = () => setIsLoginModalOpen(false)
@@ -125,7 +147,7 @@ const Home = () => {
           {/* Login/Register Box */}
           <div className="box py-5 px-6" style={{ backgroundColor: 'rgba(255, 255, 255, 0.25)', borderRadius: '8px', boxShadow: '0, 8px, 16px rgba(0, 0, 0, 0.2)', maxWidth: '400px', margin: 'auto' }} ref={boxRef}>
             <div className="field">
-              <button className="button is-danger is-fullwidth mb-3" onClick={()=>loginWithPopup()} disabled={isLoading}>
+              <button className="button is-danger is-fullwidth mb-3" onClick={()=>handleLoginClick()} disabled={isLoading}>
                 {/* Lucide LogIn Icon */}
                 <span className="icon is-small">
                   <LogIn size={16} />
@@ -134,7 +156,7 @@ const Home = () => {
               </button>
             </div>
             <div className="field">
-              <button className="button is-primary is-fullwidth" onClick={()=>loginWithPopup({ authorizationParams: { screen_hint: 'signup'}})} disabled={isLoading}>
+              <button className="button is-primary is-fullwidth" onClick={()=>handleRegisterClick()} disabled={isLoading}>
                 {/* Lucide UserPlus Icon */}
                 <span className="icon is-small">
                   <UserPlus size={16} />
