@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import request from 'superagent';
 import { PlusSquare, RefreshCw, LogOut } from 'lucide-react'
 import { useAuth0 } from '@auth0/auth0-react';
+import '../styles/ThunkLog.css'
 
 // TYPE: Thunk Entry (server/db.ts ln7)
 export interface Thunk {
@@ -135,16 +136,19 @@ const Log = () => {
               boxShadow: '0 18px 16px rgba(0, 0, 0, 0.2)',
               width: '90%',
               maxWidth: '800px',
-              height: '80%',
-              maxHeight: '600px',
+              height: 'auto',
+              maxHeight: 'calc(100vh - 100px)',
               display: 'flex',
               flexDirection: 'column',
               margin: 'auto',
-              overflowY: 'auto', // Lot of entries = enable scroll
-              position: 'relative'
+              position: 'relative',
+              paddingTop: '2rem',
+              paddingBottom: '1rem',
+              paddingLeft: '1.5rem',
+              paddingRight: '1.5rem'
             }}
           >
-            <h1 className="title is-3 has-text-grey-dark has-text-centered mb-4">Your Thunk Log</h1>
+            <h1 className="title is-3 has-text-grey-dark has-text-centered mb-4">Thunk Log</h1>
 
             {loading && <p className="has-text-info has-text-centered">Loading thunks...</p>}
             {error && <p className="has-text-danger has-text-centered">{error}</p>}
@@ -154,9 +158,9 @@ const Log = () => {
 
             {/* Display Thunks */}
             {!loading && !error && thunks.length > 0 && (
-              <div className="thunks-list" style={{ flexGrow: 1, overflowY: 'auto', marginBottom: '20px' }}>
+              <div className="thunks-list" style={{ flexGrow: 1, overflowY: 'auto', marginBottom: '20px', paddingTop: '0.5rem', paddingBottom: '0.5rem' }}>
                 {thunks.map((thunk) => (
-                  <div key={thunk.id} className="box mb-3 p-4 has-background-white-bis" onClick={()=>handleThunkClick(thunk.id)} style={{cursor: 'pointer'}}>
+                  <div key={thunk.id} className="box mb-3 p-4 thunk-entry " onClick={()=>handleThunkClick(thunk.id)}>
                     <p className="title is-5 mb-1 has-text-dark">{thunk.title}</p>
                     <p className="subtitle is-6 mb-2 has-text-grey-dark">{new Date(thunk.created_at).toLocaleString()}</p>
                     <p className="content has-text-dark">{thunk.text}</p>

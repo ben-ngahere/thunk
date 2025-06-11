@@ -1,0 +1,30 @@
+/* src/styles/ThunkLog.css */
+
+.thunk-entry {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 12px; /* MODIFIED: Increased border-radius for smoother corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle default shadow */
+  border: 2px solid transparent; /* Default transparent border */
+  cursor: pointer;
+
+  transition:
+    border-color 0.3s ease-out,
+    box-shadow 0.3s ease-out,
+    transform 0.1s ease-out;
+}
+
+.thunk-entry:hover {
+  /* Glowing border effect on hover */
+  border-color: #6a9edb; /* A subtle blue glow color */
+  box-shadow:
+    0 4px 15px rgba(0, 0, 0, 0.2), /* Slightly larger, more pronounced shadow */
+    0 0 0 6px rgba(106, 158, 219, 0.6); /* MODIFIED: Increased glow spread and opacity for a softer, more visible glow */
+  transform: translateY(-2px);
+}
+
+.thunk-entry:active {
+  transform: translateY(0);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.15),
+    0 0 0 4px rgba(106, 158, 219, 0.8); /* MODIFIED: Adjusted glow for active state */
+}
