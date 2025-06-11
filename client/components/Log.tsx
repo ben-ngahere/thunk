@@ -16,7 +16,7 @@ export interface Thunk {
 
 const Log = () => {
   const navigate = useNavigate();
-  const { logout, getAccessTokenSilently, user } = useAuth0(); // user is used in the back-end
+  const { logout, getAccessTokenSilently, user, isAuthenticated, isLoading } = useAuth0(); // user is used in the back-end
 
   const [thunks, setThunks] = useState<Thunk[]>([]);
   const [loading, setLoading] = useState(true);
@@ -53,8 +53,10 @@ const Log = () => {
 
   // GET: Thunks when Log.tsx loads
   useEffect(() => {
+    if (isAuthenticated && !isLoading) {
     getThunks();
-  }, []); // watching this, not a problem for now
+  }
+  }, [isAuthenticated, isLoading]);
 
   // New Entry Button
   const handleNewEntryClick = () => {
@@ -84,7 +86,13 @@ const Log = () => {
         </div>
         <div id="navbarBasicExample" className="navbar-menu is-active">
           <div className="navbar-end">
-
+             {/* Username Display */}
+            {isAuthenticated && user && (
+              <div className="navbar-item has-text-white has-text-weight-semibold">
+                Hey! {user.name || user.nickname || user.email}
+              </div>
+            )}
+            
             {/* New Entry Button */}
             <div className="navbar-item">
               <div className="buttons">

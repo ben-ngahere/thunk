@@ -225,7 +225,7 @@ const NewEntry = () => {
         >
           {/* Edit (should change with mode) */}
           <h1 className="title is-3 has-text-grey-dark has-text-centered mb-4">
-            {isEditMode ? 'Edit Thunk' : 'New Entry'}
+            {isEditMode ? 'Edit Thunk' : 'New Thunk'}
           </h1>
           {/* Loading Edit */}
           {isLoading && <p className="has-text-info has-text-centered">Loading thunk...</p>}
