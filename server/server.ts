@@ -2,7 +2,7 @@ import * as Path from 'node:path'
 import express from 'express'
 import cors from 'cors'
 import { fileURLToPath } from 'node:url'
-import { getThunksByUserId, addThunk, getThunkById, updateThunk } from './db'
+import { getThunksByUserId, addThunk, getThunkById, updateThunk, deleteThunk } from './db'
 import 'dotenv/config'
 import { auth as jwtAuth }  from 'express-oauth2-jwt-bearer'
 
@@ -132,6 +132,32 @@ server.put('/api/thunks/:id', async (req, res) => {
   } catch (error) {
     console.error('Error updating thunk:', error);
     res.status(500).send('Error updating thunk');
+  }
+});
+
+// DELETE; A Thunk by ID (server/db.ts ln61)
+server.delete('/api/thunks/:id', async (req, res) => {
+  try {
+    const thunkId = Number(req.params.id);
+    const auth0Id = req.auth?.payload?.sub;
+
+    if (!auth0Id) {
+      return res.status(401).send('User ID not found');
+    }
+    if (isNaN(thunkId)) {
+      return res.status(400).send('Invalid ID');
+    }
+
+    const deletedRows = await deleteThunk(thunkId, auth0Id);
+
+    if (deletedRows === 0) {
+      return res.status(404).send('Thunk not found or not owned by user');
+    }
+
+    res.status(200).json({ message: 'Thunk deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting thunk:', error);
+    res.status(500).send('Error deleting thunk');
   }
 });
 

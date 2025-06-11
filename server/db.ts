@@ -57,3 +57,11 @@ export async function updateThunk(
       text: newText,
     });
 }
+
+// DELETE: A Thunk by ID (server/server.ts ln138)
+export async function deleteThunk(id: number, userId: string): Promise<number> {
+  return db('thunks')
+    .where('id', id)
+    .andWhere('user_id', userId) // Only deletes if it belongs to the user
+    .del()
+}
