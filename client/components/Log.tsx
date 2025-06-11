@@ -60,6 +60,11 @@ const Log = () => {
     navigate('/newentry');
   };
 
+  // Handle Thunk Click (Edit)
+  const handleThunkClick = (thunkId: number) => {
+    navigate(`/newentry/${thunkId}`)
+  }
+
   // Sign Out Button
   const handleSignOutClick = () => {
     logout ({ logoutParams: { returnTo: window.location.origin }})
@@ -151,7 +156,7 @@ const Log = () => {
             {!loading && !error && thunks.length > 0 && (
               <div className="thunks-list" style={{ flexGrow: 1, overflowY: 'auto', marginBottom: '20px' }}>
                 {thunks.map((thunk) => (
-                  <div key={thunk.id} className="box mb-3 p-4 has-background-white-bis">
+                  <div key={thunk.id} className="box mb-3 p-4 has-background-white-bis" onClick={()=>handleThunkClick(thunk.id)} style={{cursor: 'pointer'}}>
                     <p className="title is-5 mb-1">{thunk.title}</p>
                     <p className="subtitle is-6 has-text-grey mb-2">{new Date(thunk.created_at).toLocaleString()}</p>
                     <p className="content">{thunk.text}</p>
