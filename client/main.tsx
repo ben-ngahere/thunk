@@ -21,7 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
         domain="whai-2025-ben.au.auth0.com"
         clientId="FouvVR0bcnWyb7vzqLXqS3L8bFWvXhvj"
         authorizationParams={{
-          redirect_uri: window.location.origin, 
+          redirect_uri: window.location.origin,
+          scope: 'openid profile email offline_access'
         }}
         // Auth0 - Pop-Up
         useRefreshTokens={true} // Silent Refresh

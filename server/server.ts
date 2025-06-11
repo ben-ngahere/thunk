@@ -11,6 +11,12 @@ const __dirname = Path.dirname(__filename)
 
 const server = express()
 
+server.use((req, res, next) => {
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+  res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+  next();
+});
+
 server.use(express.json())
 server.use(cors())
 
