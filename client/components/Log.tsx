@@ -16,7 +16,7 @@ export interface Thunk {
 
 const Log = () => {
   const navigate = useNavigate();
-  const { logout, getAccessTokenSilently, user } = useAuth0();
+  const { logout, getAccessTokenSilently, user } = useAuth0(); // user is used in the back-end
 
   const [thunks, setThunks] = useState<Thunk[]>([]);
   const [loading, setLoading] = useState(true);
@@ -54,7 +54,7 @@ const Log = () => {
   // GET: Thunks when Log.tsx loads
   useEffect(() => {
     getThunks();
-  }, []);
+  }, []); // watching this, not a problem for now
 
   // New Entry Button
   const handleNewEntryClick = () => {

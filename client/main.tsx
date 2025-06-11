@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
           redirect_uri: window.location.origin,
           scope: 'openid profile email offline_access'
         }}
-        // Auth0 - Pop-Up
+        // Auth0 - Redirect
         useRefreshTokens={true} // Silent Refresh
         cacheLocation="localstorage" // Local for Persistence
       >
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/newentry/:id?" element={<NewEntry />} /> {/* :id? for editing using NewEntry */}
+          <Route path="/newentry/:id?" element={<NewEntry />} /> {/* :id? for going into Edit Mode using NewEntry */}
           <Route path="/log" element={<Log />} />
         </Routes>
       </BrowserRouter>

@@ -95,24 +95,24 @@ const Home = () => {
     }
   }, [])
 
-  // NEW: Handle Login Click - initiates Auth0 redirect
+  // Handle Login Button
   const handleLoginClick = async () => {
     await loginWithRedirect({
       authorizationParams: {
-        screen_hint: 'login', // Suggests login screen
-        audience: 'https://thunk/api', // Crucial for getting the API token
-        scope: 'openid profile email offline_access', // Crucial for refresh tokens
+        screen_hint: 'login',
+        audience: 'https://thunk/api',
+        scope: 'openid profile email offline_access',
       },
     });
   };
 
-  // NEW: Handle Register Click - initiates Auth0 redirect
+  // Handle Register Button
   const handleRegisterClick = async () => {
     await loginWithRedirect({
       authorizationParams: {
-        screen_hint: 'signup', // Suggests signup screen
-        audience: 'https://thunk/api', // Crucial for getting the API token
-        scope: 'openid profile email offline_access', // Crucial for refresh tokens
+        screen_hint: 'signup', 
+        audience: 'https://thunk/api',
+        scope: 'openid profile email offline_access',
       },
     });
   };
