@@ -15,21 +15,31 @@ export interface Thunk {
 
 const Log = () => {
   const navigate = useNavigate();
-  const { logout } = useAuth0();
+  const { logout, getAccessTokenSilently, user } = useAuth0();
 
   const [thunks, setThunks] = useState<Thunk[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const MOCK_USER_ID = 'mock_user_ben'; // Still needed, gets used in the back-end. Auth0 on it's way soon
+  // const MOCK_USER_ID = 'mock_user_ben';
 
   // GET: Saved Thunks for a User
   const getThunks = async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await request.get('/api/thunks');
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: 'https://thunk/api'
+        }
+      })
+      console.log('Access Token (Log)', accessToken)
+
+      const response = await request
+      .get('/api/thunks')
+      .set('Authorization', `Bearer ${accessToken}`)
+
       setThunks(response.body);
       console.log('Fetched thunks:', response.body);
     } catch (error) {
