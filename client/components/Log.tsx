@@ -152,7 +152,7 @@ const Log = () => {
           >
             {/* Username Display */}
             {isAuthenticated && user && (
-              <div className="navbar-item has-text-black has-text-weight-semibold">
+              <div className="navbar-item has-text-black has-text-weight-semibold is-size-7">
                 <span className="icon-is-small">
                   <CircleUser size={20} />
                 </span>
@@ -173,9 +173,9 @@ const Log = () => {
               <div className="thunks-list" style={{ flexGrow: 1, overflowY: 'auto', marginBottom: '20px', paddingTop: '0.5rem', paddingBottom: '0.5rem' }}>
                 {thunks.map((thunk) => (
                   <div key={thunk.id} className="box mb-3 p-4 thunk-entry " onClick={()=>handleThunkClick(thunk.id)}>
+                    <p className="subtitle is-6 mb-2 has-text-grey-dark">{new Date(thunk.created_at).toLocaleDateString('en-GB')}</p>
                     <p className="title is-5 mb-1 has-text-dark">{thunk.title}</p>
-                    <p className="subtitle is-6 mb-2 has-text-grey-dark">{new Date(thunk.created_at).toLocaleString()}</p>
-                    <p className="content has-text-dark">{thunk.text}</p>
+                    {/*<p className="content has-text-dark">{thunk.text}</p>*/}
                   </div>
                 ))}
               </div>

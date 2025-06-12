@@ -229,13 +229,14 @@ const NewEntry = () => {
         >
           {/* Username Display */}
             {isAuthenticated && user && (
-              <div className="navbar-item has-text-black has-text-weight-semibold">
+              <div className="navbar-item has-text-black has-text-weight-semibold is-size-7">
                 <span className="icon-is-small">
                   <CircleUser size={20}/>
                   </span>
                   {user.name || user.nickname || user.email}
               </div>
             )}
+
           {/* Edit (should change with mode) */}
           <h1 className="title is-3 has-text-grey-dark has-text-centered mb-4">
             {isEditMode ? 'Edit Thunk' : 'New Thunk'}

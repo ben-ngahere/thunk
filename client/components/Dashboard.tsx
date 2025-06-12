@@ -110,46 +110,46 @@ const Dashboard = () => {
   }, [gsapScrambleComplete, subtitleTypedComplete]);
 
   // Framer Motion Variants for title animation phases
-  const titleMoveScrambleVariants = {
-    initial: {
-      scale: 0.9,
-      opacity: 0,
-      visibility: 'hidden',
-    },
-    scrambleAndType: {
-      scale: 0.9,
-      opacity: 1,
-      visibility: 'visible',
-      transition: {
-        opacity: { duration: 0.5 },
-      },
-    },
-    fadeOutTitle: {
-      scale: 1.0,
-      opacity: 0,
-      visibility: 'visible',
-      transition: {
-        opacity: { duration: 0.5, ease: "easeOut" },
-        scale: { duration: 0.5, ease: "easeOut" },
-      },
-    },
-    hideAndRepositionTitle: {
-      scale: 0,
-      opacity: 0,
-      visibility: 'hidden',
-      transition: {
-        visibility: { delay: 0, duration: 0 },
-      },
-    },
-    fadeInTitle: {
-      scale: 1.0,
-      opacity: 1,
-      visibility: 'visible',
-      transition: {
-        opacity: { duration: 0.5, ease: "easeOut" },
-      },
-    },
-  };
+  // const titleMoveScrambleVariants = {
+  //   initial: {
+  //     scale: 0.9,
+  //     opacity: 0,
+  //     visibility: 'hidden',
+  //   },
+  //   scrambleAndType: {
+  //     scale: 0.9,
+  //     opacity: 1,
+  //     visibility: 'visible',
+  //     transition: {
+  //       opacity: { duration: 0.5 },
+  //     },
+  //   },
+  //   fadeOutTitle: {
+  //     scale: 1.0,
+  //     opacity: 0,
+  //     visibility: 'visible',
+  //     transition: {
+  //       opacity: { duration: 0.5, ease: "easeOut" },
+  //       scale: { duration: 0.5, ease: "easeOut" },
+  //     },
+  //   },
+  //   hideAndRepositionTitle: {
+  //     scale: 0,
+  //     opacity: 0,
+  //     visibility: 'hidden',
+  //     transition: {
+  //       visibility: { delay: 0, duration: 0 },
+  //     },
+  //   },
+  //   fadeInTitle: {
+  //     scale: 1.0,
+  //     opacity: 1,
+  //     visibility: 'visible',
+  //     transition: {
+  //       opacity: { duration: 0.5, ease: "easeOut" },
+  //     },
+  //   },
+  // };
 
   // Framer Motion Variants for subtitle fade
   const subtitleFadeVariants = {
@@ -175,8 +175,8 @@ const Dashboard = () => {
             ref={mainTitleRef}
             className="title is-1 has-text-white"
             style={{ fontSize: '4rem', margin: '0.5rem 0' }} //vertical margin for spacing
-            variants={titleMoveScrambleVariants}
-            initial="initial"
+            //variants={titleMoveScrambleVariants}
+            //initial="initial"
             animate={animationPhase}
             onAnimationComplete={(definition) => {
               if (definition === 'fadeOutTitle') {
@@ -186,7 +186,7 @@ const Dashboard = () => {
               } else if (definition === 'fadeInTitle') {
                 setTimeout(() => {
                   setShowCards(true);
-                }, 500); // Small delay before cards appear
+                }, 1000); // Small delay before cards appear
               }
             }}
           >
