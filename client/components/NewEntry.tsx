@@ -9,7 +9,7 @@ import { Thunk } from './Log'
 const NewEntry = () => {
   const navigate = useNavigate();
   const { id } = useParams<{id: string }>()
-  const { logout, getAccessTokenSilently, user } = useAuth0();
+  const { logout, getAccessTokenSilently, user, isAuthenticated, isLoading1 } = useAuth0();
   
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
@@ -52,10 +52,10 @@ const NewEntry = () => {
     };
 
     // Makes sure user is logged in before fetching
-    if (user) {
+    if (isAuthenticated && !isLoading1) {
       fetchThunk();
     }
-  }, [id, isEditMode, getAccessTokenSilently, navigate, user]);
+  }, [id, isEditMode, getAccessTokenSilently, navigate, user, isAuthenticated, isLoading1]);
 
   // Save Button
   const handleSaveClick = async () => {
@@ -164,6 +164,12 @@ const NewEntry = () => {
         </div>
         <div id="navbarBasicExample" className="navbar-menu is-active">
           <div className="navbar-end">
+            {/* Username Display */}
+            {isAuthenticated && user && (
+              <div className="navbar-item has-text-white has-text-weight-semibold">
+                Hey! {user.name || user.nickname || user.email}
+              </div>
+            )}
 
             {/* View Log Button */}
             <div className="navbar-item">

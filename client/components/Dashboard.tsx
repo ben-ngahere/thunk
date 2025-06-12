@@ -88,17 +88,17 @@ const Dashboard = () => {
       gsap.to(mainTitleRef.current, {
         scrambleText: {
           text: "thunk.board",
-          chars: "alpha",
+          chars: "lowercase",
           speed: 0.3,
-          revealDelay: 0.3
+          revealDelay: 0
         },
         duration: 1,
-        ease: "power1.inOut",
+        ease: "power1",
         onComplete: () => {
           setTimeout(() => {
             setShowSubtitle(false); // Hide subtitle
             setAnimationPhase('fadeOutTitle');
-          }, 50);
+          }, 0);
         }
       });
     }
