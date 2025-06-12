@@ -190,7 +190,7 @@ const Dashboard = () => {
               }
             }}
           >
-            Welcome
+    
           </motion.h1>
 
           {/* Subtitle: Uses AnimatePresence */}

@@ -26,9 +26,9 @@ const ThunkLogCard = ({ isVisible }: ThunkLogCardProps) => {
       exit="hidden"
       style={{ opacity: 0.9, maxWidth: '300px', margin: '1rem auto' }}
     >
-      <h3 className="title is-4 has-text-grey-dark">Entry Log</h3>
+      <h3 className="title is-4 has-text-grey-dark">Saved</h3>
       <p className="subtitle is-6 has-text-grey-dark"></p>
-      <button className="button is-info is-fullwidth mt-4" onClick={handleViewButton}>View</button>
+      <button className="button is-warning is-fullwidth mt-4" onClick={handleViewButton}>View</button>
     </motion.div>
   );
 };
