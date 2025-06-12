@@ -5,6 +5,7 @@ import gsap from 'gsap';
 
 import NewThunkCard from './NewThunkCard';
 import ThunkLogCard from './ThunkLogCard';
+import { useAuth0 } from '@auth0/auth0-react';
 
 gsap.registerPlugin(ScrambleTextPlugin);
 
@@ -15,8 +16,12 @@ const Dashboard = () => {
   const [gsapScrambleComplete, setGsapScrambleComplete] = useState(false);
   const [subtitleTypedComplete, setSubtitleTypedComplete] = useState(false);
 
+  // Auth0 User Info
+  const { user } = useAuth0();
+
   // Subtitle Typing Animation
-  const fullSubtitle = "";
+  const userSubGreeting = user?.name || user?.nickname || user?.email
+  const fullSubtitle = `${userSubGreeting}`
   const [typedSubtitle, setTypedSubtitle] = useState('');
   const [showSubtitle, setShowSubtitle] = useState(false);
 
