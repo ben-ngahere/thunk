@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import request from 'superagent';
-import { PlusSquare, RefreshCw, LogOut } from 'lucide-react'
+import { PlusSquare, RefreshCw, LogOut, CircleUser } from 'lucide-react'
 import { useAuth0 } from '@auth0/auth0-react';
 import '../styles/ThunkLog.css'
 
@@ -86,12 +86,6 @@ const Log = () => {
         </div>
         <div id="navbarBasicExample" className="navbar-menu is-active">
           <div className="navbar-end">
-             {/* Username Display */}
-            {isAuthenticated && user && (
-              <div className="navbar-item has-text-white has-text-weight-semibold">
-                Hey! {user.name || user.nickname || user.email}
-              </div>
-            )}
             
             {/* New Entry Button */}
             <div className="navbar-item">
@@ -156,6 +150,16 @@ const Log = () => {
               paddingRight: '1.5rem'
             }}
           >
+            {/* Username Display */}
+            {isAuthenticated && user && (
+              <div className="navbar-item has-text-black has-text-weight-semibold">
+                <span className="icon-is-small">
+                  <CircleUser size={20} />
+                </span>
+                {user.name || user.nickname || user.email}
+              </div>
+            )}
+
             <h1 className="title is-3 has-text-grey-dark has-text-centered mb-4">Thunk Log</h1>
 
             {loading && <p className="has-text-info has-text-centered">Loading thunks...</p>}

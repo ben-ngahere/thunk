@@ -233,7 +233,7 @@ const NewEntry = () => {
                 <span className="icon-is-small">
                   <CircleUser size={20}/>
                   </span>
-                  <span>{user.name || user.nickname || user.email}</span>
+                  {user.name || user.nickname || user.email}
               </div>
             )}
           {/* Edit (should change with mode) */}
