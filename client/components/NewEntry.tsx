@@ -2,7 +2,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react'
 import request from 'superagent'
-import { List, LogOut, Save, Trash2 } from 'lucide-react'
+import { List, LogOut, Save, Trash2, CircleUser } from 'lucide-react'
 import { useAuth0 } from '@auth0/auth0-react';
 import { Thunk } from './Log'
 
@@ -164,12 +164,7 @@ const NewEntry = () => {
         </div>
         <div id="navbarBasicExample" className="navbar-menu is-active">
           <div className="navbar-end">
-            {/* Username Display */}
-            {isAuthenticated && user && (
-              <div className="navbar-item has-text-white has-text-weight-semibold">
-                Hey! {user.name || user.nickname || user.email}
-              </div>
-            )}
+            
 
             {/* View Log Button */}
             <div className="navbar-item">
@@ -200,6 +195,8 @@ const NewEntry = () => {
         </div>
       </nav>
 
+      
+
       {/* Main Input */}
       <section
         className="hero is-fullheight"
@@ -213,6 +210,7 @@ const NewEntry = () => {
           paddingBottom: '1rem'
         }}
       >
+        
         <div
           className="box py-5 px-6"
           style={{
@@ -229,6 +227,15 @@ const NewEntry = () => {
             margin: 'auto'
           }}
         >
+          {/* Username Display */}
+            {isAuthenticated && user && (
+              <div className="navbar-item has-text-black has-text-weight-semibold">
+                <span className="icon-is-small">
+                  <CircleUser size={20}/>
+                  </span>
+                  <span>{user.name || user.nickname || user.email}</span>
+              </div>
+            )}
           {/* Edit (should change with mode) */}
           <h1 className="title is-3 has-text-grey-dark has-text-centered mb-4">
             {isEditMode ? 'Edit Thunk' : 'New Thunk'}
