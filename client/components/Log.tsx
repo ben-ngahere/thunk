@@ -15,8 +15,25 @@ export interface Thunk {
 }
 
 const Log = () => {
-  const navigate = useNavigate();
-  const { logout, getAccessTokenSilently, user, isAuthenticated, isLoading } = useAuth0(); // user is used in the back-end
+  // User Authenticated?
+  const { user, isAuthenticated, isLoading } = useAuth0()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated){
+      navigate('/')
+    }
+  }, [isLoading, isAuthenticated, navigate])
+
+  if (isLoading){
+    return <div>Loading...</div>
+  }
+
+  if (!isAuthenticated){
+    return null
+  }
+
+  const { logout, getAccessTokenSilently } = useAuth0(); // user is used in the back-end
 
   const [thunks, setThunks] = useState<Thunk[]>([]);
   const [loading, setLoading] = useState(true);
