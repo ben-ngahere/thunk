@@ -137,7 +137,7 @@ const NewEntry = () => {
   // Cancel Delete
   const cancelDelete = () => {
     setShowDelete(false); // Hide confirmation dialog
-    setMessage('Deletion cancelled.');
+    //setMessage('Deletion cancelled');
   };
 
   // View Log Button
@@ -230,6 +230,7 @@ const NewEntry = () => {
           {/* Username Display */}
             {isAuthenticated && user && (
               <div className="navbar-item has-text-black has-text-weight-semibold is-size-7">
+                {/* Lucide CircleUser Icon */}
                 <span className="icon-is-small">
                   <CircleUser size={20}/>
                   </span>
@@ -296,6 +297,7 @@ const NewEntry = () => {
                 onClick={handleSaveClick}
                 disabled={isLoading}
               >
+                {/* Lucide Save Icon */}
                 <span className="icon is-small">
                   <Save size={16} />
                 </span>
@@ -310,6 +312,7 @@ const NewEntry = () => {
                   onClick={handleDeleteClick}
                   disabled={isLoading}
                 >
+                  {/* Lucide Trash2 Icon */}
                   <span className="icon is-small">
                     <Trash2 size={16} />
                   </span>
