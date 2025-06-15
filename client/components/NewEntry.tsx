@@ -7,9 +7,26 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Thunk } from './Log'
 
 const NewEntry = () => {
-  const navigate = useNavigate();
+  // User Authenticated?
+  const { user, isAuthenticated, isLoading2 } = useAuth0()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!isLoading2 && !isAuthenticated){
+      navigate('/')
+    }
+  }, [isLoading2, isAuthenticated, navigate])
+
+  if (isLoading2){
+    return <div>Loading...</div>
+  }
+
+  if (!isAuthenticated){
+    return null
+  }
+  
   const { id } = useParams<{id: string }>()
-  const { logout, getAccessTokenSilently, user, isAuthenticated, isLoading1 } = useAuth0();
+  const { logout, getAccessTokenSilently, isLoading1 } = useAuth0();
   
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
