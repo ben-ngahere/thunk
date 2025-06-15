@@ -6,10 +6,30 @@ import gsap from 'gsap';
 import NewThunkCard from './NewThunkCard';
 import ThunkLogCard from './ThunkLogCard';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useNavigate } from 'react-router-dom';
 
 gsap.registerPlugin(ScrambleTextPlugin);
 
+
 const Dashboard = () => {
+  // User Authenticated?
+  const { user, isAuthenticated, isLoading } = useAuth0()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated){
+      navigate('/')
+    }
+  }, [isLoading, isAuthenticated, navigate])
+
+  if (isLoading){
+    return <div>Loading...</div>
+  }
+
+  if (!isAuthenticated){
+    return null
+  }
+  
   // Animation Control
   const [animationPhase, setAnimationPhase] = useState('initial');
   const [showCards, setShowCards] = useState(false);
@@ -17,7 +37,7 @@ const Dashboard = () => {
   const [subtitleTypedComplete, setSubtitleTypedComplete] = useState(false);
 
   // Auth0 User Info
-  const { user } = useAuth0();
+  // const { user } = useAuth0();
 
   // Subtitle Typing Animation
   const userSubGreeting = user?.name || user?.nickname || user?.email
@@ -108,6 +128,7 @@ const Dashboard = () => {
       });
     }
   }, [gsapScrambleComplete, subtitleTypedComplete]);
+  
 
   // Framer Motion Variants for title animation phases
   // const titleMoveScrambleVariants = {
