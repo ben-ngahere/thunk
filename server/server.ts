@@ -162,12 +162,12 @@ server.delete('/api/thunks/:id', async (req, res) => {
 });
 
 
-server.use(express.static(Path.join(__dirname, '../client/public')))
-server.use('/assets', express.static(Path.join(__dirname, '../client/dist/assets')))
+// server.use(express.static(Path.join(__dirname, '../client/public')))
+// server.use('/assets', express.static(Path.join(__dirname, '../client/dist/assets')))
 
-server.get('*', (req, res) => {
-  res.sendFile(Path.join(__dirname, '../client/dist/index.html'))
-})
+// server.get('*', (req, res) => {
+//   res.sendFile(Path.join(__dirname, '../client/dist/index.html'))
+// })
 
 
 export default server
