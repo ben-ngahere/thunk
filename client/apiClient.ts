@@ -1,6 +1,6 @@
 import request from 'superagent'
 
-const API_BASE_URL = __API_BASE_URL__
+const API_BASE_URL = 'https://thunk-backend.onrender.com'
 
 export async function getGreeting() {
   const res = await request.get(`${API_BASE_URL}/greeting`)
