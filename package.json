@@ -17,7 +17,8 @@
     "test": "vitest",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
     "format": "prettier -w '**/*.{js,jsx,ts,tsx}'",
-    "migrate": "NODE_OPTIONS='--import tsx/esm' knex migrate:latest --knexfile knexfile.ts"
+    "migrate": "NODE_OPTIONS='--import tsx/esm' knex migrate:latest --knexfile knexfile.ts",
+    "seed": "NODE_OPTIONS='--import tsx/esm' knex seed:run --knexfile knexfile.ts"  // <--- ADDED THIS LINE
   },
   "keywords": [
     "frontend"
