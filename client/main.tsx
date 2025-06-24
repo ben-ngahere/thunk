@@ -9,6 +9,7 @@ import Home from './components/Home'
 import Dashboard from './components/Dashboard'
 import NewEntry from './components/NewEntry'
 import Log from './components/Log'
+import { getThunks } from './apiClient'
 
 const queryClient = new QueryClient()
 

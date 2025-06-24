@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import request from 'superagent';
+// Removed: import request from 'superagent'; // No longer needed as we use apiClient.ts
 import { PlusSquare, RefreshCw, LogOut, CircleUser } from 'lucide-react'
 import { useAuth0 } from '@auth0/auth0-react';
 import '../styles/ThunkLog.css'
+
+// Import the getThunks function from your apiClient.ts
+import { getThunks as fetchThunksFromApi } from '../apiClient'; // Aliased to avoid naming conflict with local function if it still existed.
 
 // TYPE: Thunk Entry (server/db.ts ln7)
 export interface Thunk {
@@ -16,34 +19,30 @@ export interface Thunk {
 
 const Log = () => {
   // User Authenticated?
-  const { user, isAuthenticated, isLoading } = useAuth0()
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated){
-      navigate('/')
-    }
-  }, [isLoading, isAuthenticated, navigate])
-
-  if (isLoading){
-    return <div>Loading...</div>
-  }
-
-  if (!isAuthenticated){
-    return null
-  }
-
-  const { logout, getAccessTokenSilently } = useAuth0(); // user is used in the back-end
+  const { user, isAuthenticated, isLoading, getAccessTokenSilently, logout } = useAuth0();
+  const navigate = useNavigate();
 
   const [thunks, setThunks] = useState<Thunk[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // const MOCK_USER_ID = 'mock_user_ben'; // Still needed, gets used in the back-end. Auth0 on it's way soon
+  // Redirect if not authenticated or still loading user
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated){
+      navigate('/');
+    }
+  }, [isLoading, isAuthenticated, navigate]);
 
-  // GET: Saved Thunks for a User
-  const getThunks = async () => {
+  if (isLoading){
+    return <div>Loading...</div>;
+  }
+
+  if (!isAuthenticated){
+    return null; // Or a message indicating user is not authenticated
+  }
+
+  // Unified function to fetch thunks, handling loading and errors
+  const fetchAndSetThunks = async () => {
     setLoading(true);
     setError(null);
     try {
@@ -51,29 +50,27 @@ const Log = () => {
         authorizationParams: {
           audience: 'https://thunk/api'
         }
-      })
-      console.log('Access Token (Log)', accessToken)
+      });
+      console.log('Access Token (Log):', accessToken);
 
-      const response = await request
-      .get('/api/thunks')
-      .set('Authorization', `Bearer ${accessToken}`)
-
-      setThunks(response.body);
-      console.log('Fetched thunks:', response.body);
-    } catch (error) {
-      console.error('Error getting thunks:', error);
+      const fetchedThunks = await fetchThunksFromApi(accessToken); // Call the imported API function
+      setThunks(fetchedThunks);
+      console.log('Fetched thunks:', fetchedThunks);
+    } catch (err) {
+      console.error('Error fetching thunks:', err);
       setError('Error getting thunks');
     } finally {
       setLoading(false);
     }
   };
 
-  // GET: Thunks when Log.tsx loads
+  // GET: Thunks when Log.tsx loads and on authentication status changes
   useEffect(() => {
+    // Only fetch if authenticated and not already loading
     if (isAuthenticated && !isLoading) {
-    getThunks();
-  }
-  }, [isAuthenticated, isLoading]);
+      fetchAndSetThunks();
+    }
+  }, [isAuthenticated, isLoading, getAccessTokenSilently]); // Added getAccessTokenSilently to dependencies
 
   // New Entry Button
   const handleNewEntryClick = () => {
@@ -82,14 +79,12 @@ const Log = () => {
 
   // Handle Thunk Click (Edit)
   const handleThunkClick = (thunkId: number) => {
-    navigate(`/newentry/${thunkId}`)
-  }
+    navigate(`/newentry/${thunkId}`);
+  };
 
   // Sign Out Button
   const handleSignOutClick = () => {
-    logout ({ logoutParams: { returnTo: window.location.origin }})
-    // console.log('Sign Out button clicked from Log Page!');
-    // navigate('/');
+    logout ({ logoutParams: { returnTo: window.location.origin }});
   };
 
   return (
@@ -201,7 +196,7 @@ const Log = () => {
             {/* Refresh Button */}
             <div className="field mt-4" style={{ textAlign: 'left', alignSelf: 'flex-start' }}>
               <div className="control">
-                <button className="button is-small is-warning" onClick={getThunks} disabled={loading}>
+                <button className="button is-small is-warning" onClick={fetchAndSetThunks} disabled={loading}>
                   {/* Lucide RefreshCw Icon */}
                 <span className="icon is-small">
                   <RefreshCw size={16} />
