@@ -14,7 +14,7 @@
     "build": "run-s build:client build:server",
     "build:client": "VITE_API_BASE_URL=$VITE_API_BASE_URL vite build",
     "build:server": "esbuild --packages=external --platform=node --format=esm --outfile=dist/server.js --bundle server/index.ts",
-    "render:build": "npm install && npm run build && npm prune --omit=dev && NODE_ENV='production' npm run knex migrate:latest",
+    "render:build": "npm install && npm run build && npm prune --omit=dev && NODE_ENV='production' npm run migrate",
     "render:start": "node dist/server.js",
     "test": "vitest",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
