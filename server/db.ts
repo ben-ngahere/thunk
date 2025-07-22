@@ -1,7 +1,8 @@
-import knex from 'knex';
-import config from '../knexfile';
+import knex from 'knex'
+import config from '../knexfile.js'
 
-const db = knex(config[process.env.NODE_ENV || 'development']);
+const environment = process.env.NODE_ENV || 'development'
+const db = knex(config[environment])
 
 // TYPE: Thunk Entry (components/Log ln7)
 export interface Thunk {
