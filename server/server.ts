@@ -22,7 +22,14 @@ server.use((req, res, next) => {
 });
 
 server.use(express.json())
-server.use(cors())
+server.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:3000', 
+    'https://thunk-jx31.onrender.com'
+  ],
+  credentials: true
+}))
 
 // const MOCK_USER_ID = 'mock_user_ben';
 
