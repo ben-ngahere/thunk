@@ -1,13 +1,17 @@
 import * as Path from 'node:path'
 import express from 'express'
 import cors from 'cors'
-import { fileURLToPath } from 'node:url'
 import { getThunksByUserId, addThunk, getThunkById, updateThunk, deleteThunk } from './db'
-import 'dotenv/config'
 import { auth as jwtAuth }  from 'express-oauth2-jwt-bearer'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = Path.dirname(__filename)
+// Load dotenv only in development
+if (process.env.NODE_ENV !== 'production') {
+  import('dotenv')
+    .then((dotenv) => dotenv.config())
+    .catch((err) => {
+      console.error('Failed to load dotenv: ', err)
+    })
+}
 
 const server = express()
 
@@ -161,13 +165,13 @@ server.delete('/api/thunks/:id', async (req, res) => {
   }
 });
 
-
-// server.use(express.static(Path.join(__dirname, '../client/public')))
-// server.use('/assets', express.static(Path.join(__dirname, '../client/dist/assets')))
-
-// server.get('*', (req, res) => {
-//   res.sendFile(Path.join(__dirname, '../client/dist/index.html'))
-// })
-
+// Production routes
+if (process.env.NODE_ENV === 'production') {
+  server.use(express.static(Path.resolve('public')))
+  server.use('/assets', express.static(Path.resolve('./dist/assets')))
+  server.get('*', (req, res) => {
+    res.sendFile(Path.resolve('./dist/index.html'))
+  })
+}
 
 export default server
