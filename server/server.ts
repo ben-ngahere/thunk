@@ -23,12 +23,10 @@ server.use((req, res, next) => {
 
 server.use(express.json())
 server.use(cors({
-  origin: [
-    'http://localhost:5173',
-    'http://localhost:3000', 
-    'https://thunk-jx31.onrender.com'
-  ],
-  credentials: true
+  origin: true,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }))
 
 // const MOCK_USER_ID = 'mock_user_ben';
@@ -146,7 +144,7 @@ server.put('/api/thunks/:id', async (req, res) => {
   }
 });
 
-// DELETE; A Thunk by ID (server/db.ts ln61)
+// DELETE: A Thunk by ID (server/db.ts ln61)
 server.delete('/api/thunks/:id', async (req, res) => {
   try {
     const thunkId = Number(req.params.id);
